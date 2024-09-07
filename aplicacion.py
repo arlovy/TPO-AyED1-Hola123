@@ -66,12 +66,12 @@ def gestion_proyectos():
     permite al usuario interactuar con el programa.
     """
     while True:
+        limpiar_pantalla()
         printear_logo()
         print(colored("GESTIÓN DE PROYECTOS", "yellow"))
         opciones = [
             "Ver proyectos",
             "Crear un proyecto",
-            "Borrar un proyecto",
             "Volver",
         ]
         show_options(opciones)
@@ -91,7 +91,6 @@ def gestion_proyectos():
             case _:
                 print(colored("Opción no válida.", "red"))
                 sleep(1.5)
-                continue
 
 def cargar_miembro():
     """
@@ -122,6 +121,7 @@ def gestion_miembros():
     """
 
     while True:
+        limpiar_pantalla()
         printear_logo()
         print(colored("GESTIÓN DE MIEMBROS", "green"))
         opciones = [
@@ -148,7 +148,6 @@ def gestion_miembros():
             case _:
                 print(colored("Opción no válida.", "red"))
                 sleep(1.5)
-                continue
 
 
 def main_screen():
@@ -171,10 +170,8 @@ def main_screen():
             match user_input:
                 case 1:
                     gestion_miembros()
-                    continue
                 case 2:
                     gestion_proyectos()
-                    continue
                 case 3:
                     print(colored("Saliendo del programa...", "red"))
                     sleep(2)
