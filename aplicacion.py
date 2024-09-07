@@ -1,4 +1,4 @@
-import constantes as cons
+import lib.constantes as cons
 from tabulate import tabulate
 from os import system, name
 from time import sleep
