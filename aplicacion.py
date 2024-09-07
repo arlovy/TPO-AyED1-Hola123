@@ -4,12 +4,9 @@ Este archivo contiene el código que inicializa la aplicación.
 
 from os import system, name
 from time import sleep
-import lib.constantes as cons
-import lib.gestion_miembros as members
-import lib.gestion_proyectos as projects
+import constantes as cons
 from tabulate import tabulate
 from termcolor import colored
-
 
 def limpiar_pantalla():
     """
@@ -50,6 +47,108 @@ def printear_logo():
     )  # printea pantalla principal con tabulate
 
 
+def ver_proyectos():
+    """
+    Esta función permite al usuario visualizar todos los proyectos. 
+    Además debe permitir acceder a cada uno en detalle y gestionarlos.
+    """
+
+
+def crear_proyecto():
+    """
+    Esta función permite al usuario crear nuevos proyectos en el archivo JSON
+    de proyectos. 
+    """
+
+def gestion_proyectos():
+    """
+    Esta función muestra las opciones del submenú de gestión de miembros y
+    permite al usuario interactuar con el programa.
+    """
+    printear_logo()
+    print(colored("GESTIÓN DE PROYECTOS", "yellow"))
+    opciones = [
+        "Ver proyectos",
+        "Crear un proyecto",
+        "Borrar un proyecto",
+        "Volver",
+    ]
+    show_options(opciones)
+
+    while True:
+        user_input = int(input("Ingrese la opción: "))
+
+        match user_input:
+            case 1:
+                ver_proyectos()
+            case 2:
+                crear_proyecto()
+            case 3:
+                print(colored("Volviendo al menú principal...", "red"))
+                sleep(2)
+                break
+            case _:
+                print(colored("Opción no válida.", "red"))
+                sleep(1.5)
+                continue
+
+def cargar_miembro():
+    """
+    Esta función debe acceder al archivo JSON de los miembros
+    y permitir al usuario cargar uno nuevo.
+    """
+
+
+def eliminar_miembro():
+    """
+    Esta función debe permitir al usuario eliminar miembros
+    del archivo JSON. Deberá solicitar una confirmación antes
+    de efectuar la eliminación.
+    """
+
+
+def buscar_miembro():
+    """
+    Esta función debe permitir al usuario buscar miembros en el
+    archivo JSON y mostrar su información.
+    """
+
+
+def gestion_miembros():
+    """
+    Esta función muestra las opciones del submenú de gestión de miembros y
+    permite al usuario interactuar con el programa.
+    """
+    printear_logo()
+    print(colored("GESTIÓN DE MIEMBROS", "green"))
+    opciones = [
+        "Cargar un miembro",
+        "Eliminar un miembro",
+        "Buscar un miembro",
+        "Volver",
+    ]
+    show_options(opciones)
+
+    while True:
+        user_input = int(input("Ingrese la opción: "))
+
+        match user_input:
+            case 1:
+                cargar_miembro()
+            case 2:
+                eliminar_miembro()
+            case 3:
+                buscar_miembro()
+            case 4:
+                print(colored("Volviendo al menú principal...", "red"))
+                sleep(2)
+                break
+            case _:
+                print(colored("Opción no válida.", "red"))
+                sleep(1.5)
+                continue
+
+
 def main_screen():
     """
     Esta función inicializa la pantalla principal del programa.
@@ -69,10 +168,10 @@ def main_screen():
 
             match user_input:
                 case 1:
-                    members.gestion_miembros()
+                    gestion_miembros()
                     continue
                 case 2:
-                    # projects.gestion_tareas()
+                    gestion_proyectos()
                     continue
                 case 3:
                     print(colored("Saliendo del programa...", "red"))
@@ -84,7 +183,7 @@ def main_screen():
                     sleep(1.5)
                     continue
         except ValueError:
-            print(colored("La opción ingresada no es válida.", "red"))
+            print(colored("Elija una opción numérica.", "red"))
             sleep(1)
 
 
