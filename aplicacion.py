@@ -65,17 +65,18 @@ def gestion_proyectos():
     Esta función muestra las opciones del submenú de gestión de miembros y
     permite al usuario interactuar con el programa.
     """
-    printear_logo()
-    print(colored("GESTIÓN DE PROYECTOS", "yellow"))
-    opciones = [
-        "Ver proyectos",
-        "Crear un proyecto",
-        "Borrar un proyecto",
-        "Volver",
-    ]
-    show_options(opciones)
-
     while True:
+        printear_logo()
+        print(colored("GESTIÓN DE PROYECTOS", "yellow"))
+        opciones = [
+            "Ver proyectos",
+            "Crear un proyecto",
+            "Borrar un proyecto",
+            "Volver",
+        ]
+        show_options(opciones)
+
+  
         user_input = int(input("Ingrese la opción: "))
 
         match user_input:
@@ -119,17 +120,18 @@ def gestion_miembros():
     Esta función muestra las opciones del submenú de gestión de miembros y
     permite al usuario interactuar con el programa.
     """
-    printear_logo()
-    print(colored("GESTIÓN DE MIEMBROS", "green"))
-    opciones = [
-        "Cargar un miembro",
-        "Eliminar un miembro",
-        "Buscar un miembro",
-        "Volver",
-    ]
-    show_options(opciones)
 
     while True:
+        printear_logo()
+        print(colored("GESTIÓN DE MIEMBROS", "green"))
+        opciones = [
+            "Cargar un miembro",
+            "Eliminar un miembro",
+            "Buscar un miembro",
+            "Volver",
+        ]
+        show_options(opciones)
+
         user_input = int(input("Ingrese la opción: "))
 
         match user_input:
