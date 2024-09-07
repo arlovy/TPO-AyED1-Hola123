@@ -1,7 +1,13 @@
-import lib.constantes as cons
-from tabulate import tabulate
+"""
+Este archivo contiene el código que inicializa la aplicación.
+"""
+
 from os import system, name
 from time import sleep
+import lib.constantes as cons
+import lib.gestion_miembros as members
+import lib.gestion_proyectos as projects
+from tabulate import tabulate
 from termcolor import colored
 
 
@@ -29,42 +35,57 @@ def show_options(options: list[str]):
     print()
 
 
+def printear_logo():
+    """
+    Esta función printea el logo de SPM usando tabulate. Trae
+    el logo ASCII de SPM del archivo constantes.py
+    """
+    limpiar_pantalla()
+    pantalla = [
+        ["Software Project Manager by Hola123"],
+        [cons.LOGO],
+    ]  # elementos de la pantalla principal
+    print(
+        tabulate(pantalla, colalign=("center",))
+    )  # printea pantalla principal con tabulate
+
+
 def main_screen():
     """
     Esta función inicializa la pantalla principal del programa.
     """
-    limpiar_pantalla()
-    main_screen = [
-        ["Software Project Manager by Hola123"],
-        [cons.logo],
-    ]  # elementos de la pantalla principal
-    print(
-        tabulate(main_screen, colalign=("center",))
-    )  # printea pantalla principal con tabulate
-
-    opciones = [
-        "Gestión de miembros",
-        "Gestión de tareas",
-        "Salir",
-    ]  # opciones pantalla principal
-    show_options(opciones)
-
     while True:
-        user_input = int(input("Ingrese la opción: "))
+        limpiar_pantalla()
+        printear_logo()
+        opciones = [
+            "Gestión de miembros",
+            "Gestión de proyectos",
+            "Salir",
+        ]  # opciones pantalla principal
+        show_options(opciones)
 
-        match user_input:
-            case 1:
-                gestion_miembros()
-            case 2:
-                gestion_tareas()
-            case 3:
-                limpiar_pantalla()
-                break
-            case _:
-                print(colored("Opción no válida.", "red"))
-                sleep(2)
-                main_screen()
-                break
+        try:
+            user_input = int(input("Ingrese la opción: "))
+
+            match user_input:
+                case 1:
+                    members.gestion_miembros()
+                    continue
+                case 2:
+                    # projects.gestion_tareas()
+                    continue
+                case 3:
+                    print(colored("Saliendo del programa...", "red"))
+                    sleep(2)
+                    limpiar_pantalla()
+                    break  # rompe el while true y finaliza el programa
+                case _:
+                    print(colored("Opción no válida.", "red"))
+                    sleep(1.5)
+                    continue
+        except ValueError:
+            print(colored("La opción ingresada no es válida.", "red"))
+            sleep(1)
 
 
 if __name__ == "__main__":

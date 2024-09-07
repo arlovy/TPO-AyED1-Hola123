@@ -1,4 +1,8 @@
-logo = """
+"""
+Este modulo contiene las constantes del proyecto.
+"""
+
+LOGO = """
 ______________  ___
 /  ___| ___ |  \/  |
 \ `--.| |_/ | .  . |
