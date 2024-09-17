@@ -5,6 +5,8 @@ Este archivo contiene el código que inicializa la aplicación.
 from time import sleep
 import modulos.tools as tul
 from termcolor import colored
+import modulos.miembros as memb
+import modulos.proyectos as proj
 
 
 def main_screen():
@@ -26,11 +28,9 @@ def main_screen():
 
             match user_input:
                 case 1:
-                    # gestion_miembros()
-                    pass
+                    memb.gestion_miembros()
                 case 2:
-                    # gestion_proyectos()
-                    pass
+                    proj.gestion_proyectos()
                 case 3:
                     print(colored("Saliendo del programa...", "red"))
                     sleep(2)
