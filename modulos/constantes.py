@@ -2,7 +2,7 @@
 Este modulo contiene las constantes del proyecto.
 """
 
-LOGO = """
+LOGO = r"""
 ______________  ___
 /  ___| ___ |  \/  |
 \ `--.| |_/ | .  . |
@@ -10,3 +10,12 @@ ______________  ___
 /\__/ | |   | |  | |
 \____/\_|   \_|  |_/                                
 """
+
+SPECS = {
+    1: "Ciencia de Datos",
+    2: "Back-End",
+    3: "Front-End",
+    4: "UI/UX",
+    5: "Bases de datos",
+    6: "Ciberseguridad"
+}
