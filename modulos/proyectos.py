@@ -3,7 +3,7 @@ Este modulo inicializa la secuencia de gestion de proyectos.
 """
 
 from time import sleep
-import tools as tul
+import modulos.tools as tul
 from termcolor import colored
 
 
@@ -46,7 +46,7 @@ def gestion_proyectos():
                 crear_proyecto()
             case 3:
                 print(colored("Volviendo al menú principal...", "red"))
-                sleep(2)
+                sleep(1.5)
                 break
             case _:
                 print(colored("Opción no válida.", "red"))

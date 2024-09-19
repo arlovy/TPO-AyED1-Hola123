@@ -4,8 +4,7 @@ Este módulo contiene funciones que son utilizadas por todo el programa.
 
 from os import system, name
 from tabulate import tabulate
-import constantes as cons
-
+import modulos.constantes as cons
 
 def printear_logo():
     """

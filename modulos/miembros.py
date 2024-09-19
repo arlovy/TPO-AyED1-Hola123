@@ -3,7 +3,8 @@ Este módulo inicializa la secuencia de gestión de miembros.
 """
 
 from time import sleep
-import tools as tul
+import csv
+import modulos.tools as tul
 from termcolor import colored
 
 
@@ -29,6 +30,7 @@ def buscar_miembro():
     archivo CSV y mostrar su información.
     Debe permitir buscar por varias categorías.
     """
+    
 
 
 def gestion_miembros():
@@ -60,7 +62,7 @@ def gestion_miembros():
                 buscar_miembro()
             case 4:
                 print(colored("Volviendo al menú principal...", "red"))
-                sleep(2)
+                sleep(1.5)
                 break
             case _:
                 print(colored("Opción no válida.", "red"))

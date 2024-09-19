@@ -33,7 +33,7 @@ def main_screen():
                     proj.gestion_proyectos()
                 case 3:
                     print(colored("Saliendo del programa...", "red"))
-                    sleep(2)
+                    sleep(1.5)
                     tul.limpiar_pantalla()
                     break  # rompe el while true y finaliza el programa
                 case _:
@@ -42,7 +42,7 @@ def main_screen():
                     continue
         except ValueError:
             print(colored("Elija una opción numérica.", "red"))
-            sleep(1)
+            sleep(1.5)
 
 
 if __name__ == "__main__":
