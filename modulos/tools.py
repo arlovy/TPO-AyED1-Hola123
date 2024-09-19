@@ -4,7 +4,7 @@ Este módulo contiene funciones que son utilizadas por todo el programa.
 
 from os import system, name
 from tabulate import tabulate
-import modulos.constantes as cons
+import constantes as cons
 
 
 def printear_logo():
@@ -41,6 +41,6 @@ def show_options(options: list[str]):
     Esta función recibe una lista de strings y la imprime, enumerándola
     para permitir al usuario interactuar con el programa.
     """
-    for opcion in enumerate(options):
-        print(f"{opcion[0] + 1}. {opcion[1]}")
+    for numero, opcion in enumerate(options):
+        print(f"{numero + 1}. {opcion}")
     print()

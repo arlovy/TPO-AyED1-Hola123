@@ -3,7 +3,7 @@ Este modulo inicializa la secuencia de gestion de proyectos.
 """
 
 from time import sleep
-import modulos.tools as tul
+import tools as tul
 from termcolor import colored
 
 

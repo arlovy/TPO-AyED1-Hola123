@@ -3,7 +3,7 @@ Este módulo inicializa la secuencia de gestión de miembros.
 """
 
 from time import sleep
-import modulos.tools as tul
+import tools as tul
 from termcolor import colored
 
 
@@ -16,16 +16,18 @@ def cargar_miembro():
 
 def eliminar_miembro():
     """
-    Esta función debe permitir al usuario eliminar miembros
-    del archivo JSON. Deberá solicitar una confirmación antes
-    de efectuar la eliminación.
+    Esta función debe permitir al usuario dar de baja miembros
+    del archivo CSV. Deberá solicitar una confirmación antes
+    de efectuar la eliminación. Al dar de baja, la especialidad
+    en el CSV se establece en -1.
     """
 
 
 def buscar_miembro():
     """
     Esta función debe permitir al usuario buscar miembros en el
-    archivo JSON y mostrar su información.
+    archivo CSV y mostrar su información.
+    Debe permitir buscar por varias categorías.
     """
 
 
