@@ -12,10 +12,10 @@ ______________  ___
 """
 
 SPECS = {
-    1: "Ciencia de Datos",
-    2: "Back-End",
-    3: "Front-End",
-    4: "UI/UX",
-    5: "Bases de datos",
-    6: "Ciberseguridad"
+    "1": "Ciencia de Datos",
+    "2": "Back-End",
+    "3": "Front-End",
+    "4": "UI/UX",
+    "5": "Bases de datos",
+    "6": "Ciberseguridad"
 }
