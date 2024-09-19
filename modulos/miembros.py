@@ -116,7 +116,9 @@ def buscar_miembro():
                             f"USUARIO:\nID: {numid}\nNOMBRE: {name}\nAPELLIDO: {lastn}\nROL: {cons.SPECS.get(role)}\n"
                         )
                 else:
-                    print("La especialidad indicada no es válida o no hay miembros con esa especialidad.")
+                    print(
+                        "La especialidad indicada no es válida o no hay miembros con esa especialidad."
+                    )
                 user_input = input("Presione ENTER para volver: ")
 
             case 4:
@@ -126,7 +128,13 @@ def buscar_miembro():
 
                 user_input = input("Ingrese el nombre a buscar: ").lower()
                 found = tuple(
-                    list(filter(lambda x: x[1].lower() == user_input or x[2].lower() == user_input, tabla_miembros))
+                    list(
+                        filter(
+                            lambda x: x[1].lower() == user_input
+                            or x[2].lower() == user_input,
+                            tabla_miembros,
+                        )
+                    )
                 )
                 if found:
                     for fila in found:
