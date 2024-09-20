@@ -4,6 +4,7 @@ Este módulo inicializa la secuencia de gestión de miembros.
 
 from time import sleep
 import csv
+import re
 import modulos.tools as tul
 import modulos.constantes as cons
 from termcolor import colored
@@ -12,9 +13,53 @@ from tabulate import tabulate
 
 def cargar_miembro():
     """
-    Esta función debe acceder al archivo JSON de los miembros
+    Esta función debe acceder al archivo CSV de los miembros
     y permitir al usuario cargar uno nuevo.
     """
+    while True:
+        tul.limpiar_pantalla()
+        tul.printear_logo()
+        print(colored("CARGA DE MIEMBROS", "green"))
+
+        archivocsv = open("data/members.csv", newline="", encoding="utf-8")  # abre csv
+        tabla_miembros = list(csv.reader(archivocsv))  # junta todos en una matriz
+        archivocsv.close()
+
+        patron_nombres = re.compile("^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?: [A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$") # patron tal que Nombre Apellido
+        user_input = input("Ingrese nombre y apellido del miembro a cargar (-1 para cancelar): ")
+        nuevo_miembro = [] #miembro a cargar en el csv
+
+        if re.match(patron_nombres, user_input): #si el nombre es valido
+            nombre, apellido = user_input.split() #divide el nombre en dos
+            nuevo_miembro.extend([int(tabla_miembros[-1][0]) + 1, nombre, apellido]) # añade la id y el nombre al nuevo miembro
+            print()
+
+            for key, valor in cons.SPECS.items():  # muestra los roles
+                print(f"{key}. {valor}")
+                print()
+
+            user_input = input("Ingrese la especialidad: ")  #especialidad
+
+            #aca se escribe en el csv
+            if user_input in cons.SPECS:
+                nuevo_miembro.extend([user_input])
+                with open('data/members.csv', "a", newline="", encoding="utf-8") as archivocsv:
+                    escritor = csv.writer(archivocsv, delimiter=",", lineterminator="\n")
+                    escritor.writerow(nuevo_miembro)
+                print(colored("Usuario cargado correctamente.", "green"))
+                sleep(1.5)
+                break
+            else:
+                print("Especialidad no válida.")
+
+        elif user_input == "-1":
+            print(colored("Carga de miembro abortada...", "red"))
+            sleep(1.5)
+            break
+        else:
+            print("Error. El nombre debe seguir el formato 'Nombre Apellido'.")
+        user_input = input("Presione ENTER para volver:")
+
 
 
 def eliminar_miembro():
@@ -51,7 +96,7 @@ def buscar_miembro():
         archivocsv.close()
 
         match user_input:
-            case 1:
+            case 1: #VER TODOS
                 # limpia pantalla
                 tul.limpiar_pantalla()
                 tul.printear_logo()
@@ -72,17 +117,20 @@ def buscar_miembro():
                 print(tabulate(tabla_miembros, headers="firstrow"))
                 user_input = input("Presione ENTER para volver: ")
 
-            case 2:
+            case 2: #BUSCAR POR ID
                 # limpia pantalla
                 tul.limpiar_pantalla()
                 tul.printear_logo()
 
+                ides = [item[0] for item in tabla_miembros] #trae las ids para comparar
                 user_input = input("Ingrese la ID a buscar: ")
-                # itera y busca el usuario con la id tal
-                # el filter retorna un objeto con lista, asi que hago un pop para hacerlo tupla
-                found = tuple(
-                    list(filter(lambda x: x[0] == user_input, tabla_miembros)).pop(0)
-                )
+
+                if user_input in ides: # si esta la id:
+                    found = tuple(list(filter(lambda x: x[0] == user_input, tabla_miembros)).pop(0)) #filtra y trae al miembro
+                    # el pop esta porque filter retorna [datos, ] asi que toma el primer valor y lo hce tupla
+                else:
+                    found = []
+
                 if found:
                     numid, name, lastn, role = (
                         found  # desempaqueta la tupla para printear
@@ -94,7 +142,7 @@ def buscar_miembro():
                     print("El usuario especificado no existe.")
                 user_input = input("Presione ENTER para volver: ")
 
-            case 3:
+            case 3: #BUSCAR POR ID
                 # limpia pantalla
                 tul.limpiar_pantalla()
                 tul.printear_logo()
@@ -117,11 +165,13 @@ def buscar_miembro():
                         )
                 else:
                     print(
-                        "La especialidad indicada no es válida o no hay miembros con esa especialidad."
+                        colored("La especialidad indicada no es válida o no hay miembros con esa especialidad.",
+                                "red"
+                        )
                     )
                 user_input = input("Presione ENTER para volver: ")
 
-            case 4:
+            case 4: #BUSCAR POR NOMBRE
                 # limpia pantalla
                 tul.limpiar_pantalla()
                 tul.printear_logo()
@@ -130,8 +180,8 @@ def buscar_miembro():
                 found = tuple(
                     list(
                         filter(
-                            lambda x: x[1].lower() == user_input
-                            or x[2].lower() == user_input,
+                            lambda x: x[1].lower() in user_input.split()
+                            or x[2].lower() in user_input.split(), # splitea por si nombre & apellido
                             tabla_miembros,
                         )
                     )
