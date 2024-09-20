@@ -67,8 +67,54 @@ def eliminar_miembro():
     Esta función debe permitir al usuario dar de baja miembros
     del archivo CSV. Deberá solicitar una confirmación antes
     de efectuar la eliminación. Al dar de baja, la especialidad
-    en el CSV se establece en -1.
+    en el CSV se establece en -1, no se borra la columna.
     """
+    while True:
+        tul.limpiar_pantalla()
+        tul.printear_logo()
+
+        print(colored("BAJA DE MIEMBROS", "red"))
+        archivocsv = open("data/members.csv", newline="", encoding="utf-8")  # abre csv
+        tabla_miembros = list(csv.reader(archivocsv))  # junta todos en una matriz
+        archivocsv.close()
+        
+        id_input = input("Ingrese la ID del miembro a dar de baja (-1 para cancelar): ")
+
+        if id_input != "-1" and id_input != "":
+            for miembro in tabla_miembros:
+                if miembro[0] == id_input: # busca el miembro con la id proporcioanda
+                    dato = tuple(miembro)
+
+            print(dato)
+            ide,nombre,apellido,spec = dato
+            print(f"ID: {ide}\nNOMBRE: {nombre}\nAPELLIDO: {apellido}\nROL: {cons.SPECS.get(spec)}\n")
+            user_input = input("¿Desea dar de baja a este miembro? (1 - SI | 2 - NO): ")
+
+            if user_input == "1":
+                for miembro in tabla_miembros: # busca el miembro con la id proporcioanda
+                    if miembro[0] == id_input: # si tiene id proprocioanda
+                        miembro[3] = "-1" # rol es -1
+
+                with open('data/members.csv', "w", newline="", encoding="utf-8") as archivocsv: # abre el csv, lo reescribe desde 0
+                    escritor = csv.writer(archivocsv, delimiter=",", lineterminator="\n") #crea el writer para el csv
+                    for item in tabla_miembros: 
+                        escritor.writerow(item) # introduce cada fila de la matriz en el csv
+
+                print(colored("Miembro dado de baja correctamente...", "red"))
+                sleep(1.5)
+                break
+            elif user_input == "2":
+                print(colored("Cancelando operación...", "red"))
+                sleep(1.5)
+                break
+            else:
+                print(colored("Opción no válida. Cancelando operación...", "red"))
+                sleep(1.5)
+                break
+        else:
+            print(colored("Cancelando operación...", "red"))
+            sleep(1.5)
+            break
 
 
 def buscar_miembro():
