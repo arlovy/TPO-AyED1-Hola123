@@ -9,7 +9,7 @@ import modulos.miembros as memb
 import modulos.proyectos as proj
 
 
-def main_screen():
+def main_screen() -> None:
     """
     Esta función inicializa la pantalla principal del programa.
     """

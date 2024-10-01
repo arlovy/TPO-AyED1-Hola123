@@ -11,7 +11,7 @@ from termcolor import colored
 from tabulate import tabulate
 
 
-def cargar_miembro():
+def cargar_miembro() -> None:
     """
     Esta función debe acceder al archivo CSV de los miembros
     y permitir al usuario cargar uno nuevo.
@@ -62,7 +62,7 @@ def cargar_miembro():
 
 
 
-def eliminar_miembro():
+def eliminar_miembro() -> None:
     """
     Esta función debe permitir al usuario dar de baja miembros
     del archivo CSV. Deberá solicitar una confirmación antes
@@ -117,7 +117,7 @@ def eliminar_miembro():
             break
 
 
-def buscar_miembro():
+def buscar_miembro() -> None:
     """
     Esta función debe permitir al usuario buscar miembros en el
     archivo CSV y mostrar su información.
@@ -253,7 +253,7 @@ def buscar_miembro():
                 sleep(1.5)
 
 
-def gestion_miembros():
+def gestion_miembros() -> None:
     """
     Esta función muestra las opciones del submenú de gestión de miembros y
     permite al usuario interactuar con el programa.

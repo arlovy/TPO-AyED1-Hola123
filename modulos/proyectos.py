@@ -7,21 +7,21 @@ import modulos.tools as tul
 from termcolor import colored
 
 
-def ver_proyectos():
+def ver_proyectos() -> None:
     """
     Esta función permite al usuario visualizar todos los proyectos.
     Además debe permitir acceder a cada uno en detalle y gestionarlos.
     """
 
 
-def crear_proyecto():
+def crear_proyecto() -> None:
     """
     Esta función permite al usuario crear nuevos proyectos en el archivo JSON
     de proyectos.
     """
 
 
-def gestion_proyectos():
+def gestion_proyectos() -> None:
     """
     Esta función muestra las opciones del submenú de gestión de miembros y
     permite al usuario interactuar con el programa.

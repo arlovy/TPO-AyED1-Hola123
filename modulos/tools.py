@@ -6,7 +6,7 @@ from os import system, name
 from tabulate import tabulate
 import modulos.constantes as cons
 
-def printear_logo():
+def printear_logo() -> None:
     """
     Esta función printea el logo de SPM usando tabulate. Trae
     el logo ASCII de SPM del archivo constantes.py
@@ -21,7 +21,7 @@ def printear_logo():
     )  # printea pantalla principal con tabulate
 
 
-def limpiar_pantalla():
+def limpiar_pantalla() -> None:
     """
     Esta función se encarga de limpiar la consola.
     """
@@ -35,7 +35,7 @@ def limpiar_pantalla():
         _ = system("clear")
 
 
-def show_options(options: list[str]):
+def show_options(options: list[str]) -> None:
     """
     Esta función recibe una lista de strings y la imprime, enumerándola
     para permitir al usuario interactuar con el programa.
