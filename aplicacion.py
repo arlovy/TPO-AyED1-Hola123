@@ -22,7 +22,7 @@ def main_screen() -> None:
             "Salir",
         ]  # opciones pantalla principal
         tul.show_options(opciones)
-
+        print(tul.abrir_csv("data/members.csv"))
         try:
             user_input = int(input("Ingrese la opción: "))
 

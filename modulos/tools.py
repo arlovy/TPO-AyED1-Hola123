@@ -43,3 +43,15 @@ def show_options(options: list[str]) -> None:
     for numero, opcion in enumerate(options):
         print(f"{numero + 1}. {opcion}")
     print()
+
+def abrir_csv(ruta_csv: str) -> list[list[str]]:
+    """
+    Esta función genera una matriz a partir de un archivo CSV para ser trabajada.
+    Recibe como parámetro un string con la ruta del archivo CSV a leer.
+    Retorna una lista de listas donde cada índice representa una fila del CSV.
+    """
+    with open(ruta_csv, "r", encoding="utf-8") as csvfile:
+        archivocsv = list(map(lambda x: x.split(","),csvfile.readlines()))
+        for lista in archivocsv:
+            lista[3] = lista[3].replace("\n", "")
+    return archivocsv
