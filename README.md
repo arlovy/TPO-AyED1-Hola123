@@ -17,7 +17,7 @@ El programa trabaja con 2 CSV; **members.csv**, que contiene a los miembros, y *
 
 Las principales librerías usadas son:
 - **TABULATE:** Para la organización de la interfaz y la presentación de datos.
-- **JSON/CSV:** Para trabajar con archivos de datos.
+- **JSON:** Para trabajar con archivos JSON.
 - **TERMCOLOR:** Utilizado para darle color a textos en la terminal, mas que nada para facilitar la lectura.
 - **TIME:** Mas que nada la función sleep, para dejar un tiempo entre los mensajes de error y salida antes de limpiar la terminal.
 - **OS:** Utilizado para limpiar la terminal al cambiar entre pantallas.
