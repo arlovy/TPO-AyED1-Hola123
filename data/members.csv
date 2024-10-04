@@ -10,7 +10,7 @@ id,nombre,apellido,role
 9,Francisco,Mariano,2
 10,Nadia,García,1
 11,Dario,Benedetto,3
-12,Aron,Lovey,-1
+12,Aron,Lovey,1
 13,Lucas,Paluci,2
 14,Gabo,Esperon,3
 15,Maximo,Gallo,4
@@ -18,3 +18,4 @@ id,nombre,apellido,role
 17,Martin,Lopez,5
 18,Gabriel,Martinelli,4
 19,Gasparin,Aller,1
+20,Pedro,Perez,4
