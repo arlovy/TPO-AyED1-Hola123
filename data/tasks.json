@@ -1,0 +1,182 @@
+{
+    "198": {
+        "nombre_tarea": "Desarrollar GUI",
+        "descripcion": "Desarrollar una interfaz gráfica para el usuario.",
+        "status": 3,
+        "fecha_inicio": "2024-10-03",
+        "fecha_fin": "2024-10-07",
+        "prioridad": 1,
+        "asignado_a": [3, 8],
+        "proyecto": 101
+    },
+    "199": {
+        "nombre_tarea": "Desarrollar base de datos.",
+        "descripcion": "Generar una base de datos para trabajar los datos solicitados.",
+        "status": 3,
+        "fecha_inicio": "2024-10-02",
+        "fecha_fin": "2024-10-05",
+        "prioridad": 1,
+        "asignado_a": [10],
+        "proyecto": 101
+    },
+    "200": {
+        "nombre_tarea": "Relevamiento de requerimientos",
+        "descripcion": "Hablar con el gerente para relevar requerimientos del proyecto.",
+        "status": 3,
+        "fecha_inicio": "2024-10-01",
+        "fecha_fin": "2024-10-02",
+        "prioridad": 1,
+        "asignado_a": [7],
+        "proyecto": 101
+    },
+    "201": {
+        "nombre_tarea": "Revisión de código",
+        "descripcion": "Revisar el código del módulo principal.",
+        "status": 3,
+        "fecha_inicio": "2024-11-01",
+        "fecha_fin": "",
+        "prioridad": 1,
+        "asignado_a": [2],
+        "proyecto": 101
+    },
+    "202": {
+        "nombre_tarea": "Diseño de base de datos",
+        "descripcion": "Diseñar la estructura de la base de datos.",
+        "status": 1,
+        "fecha_inicio": "2024-11-03",
+        "fecha_fin": "",
+        "prioridad": 2,
+        "asignado_a": [5],
+        "proyecto": 101
+    },
+    "203": {
+        "nombre_tarea": "Pruebas de integración",
+        "descripcion": "Realizar pruebas de integración para el módulo de pago.",
+        "status": 1,
+        "fecha_inicio": "2024-11-05",
+        "fecha_fin": "",
+        "prioridad": 1,
+        "asignado_a": [2, 9],
+        "proyecto": 101
+    },
+    "204": {
+        "nombre_tarea": "Documentación técnica",
+        "descripcion": "Completar la documentación técnica del proyecto.",
+        "status": 1,
+        "fecha_inicio": "2024-11-06",
+        "fecha_fin": "",
+        "prioridad": 3,
+        "asignado_a": [8, 15],
+        "proyecto": 101
+    },
+    "205": {
+        "nombre_tarea": "Desarrollo de API",
+        "descripcion": "Implementar la API para la integración con terceros.",
+        "status": 1,
+        "fecha_inicio": "2024-11-07",
+        "fecha_fin": "",
+        "prioridad": 1,
+        "asignado_a": [1, 3],
+        "proyecto": 102
+    },
+    "206": {
+        "nombre_tarea": "Optimización de consultas",
+        "descripcion": "Optimizar las consultas de la base de datos.",
+        "status": 1,
+        "fecha_inicio": "2024-11-08",
+        "fecha_fin": "",
+        "prioridad": 2,
+        "asignado_a": [14],
+        "proyecto": 102
+    },
+    "207": {
+        "nombre_tarea": "Desarrollo de interfaz",
+        "descripcion": "Crear la interfaz de usuario para el módulo de gestión.",
+        "status": 1,
+        "fecha_inicio": "2024-11-05",
+        "fecha_fin": "",
+        "prioridad": 1,
+        "asignado_a": [3],
+        "proyecto": 102
+    },
+    "208": {
+        "nombre_tarea": "Pruebas de carga",
+        "descripcion": "Realizar pruebas de carga para el servidor.",
+        "status": 1,
+        "fecha_inicio": "2024-11-01",
+        "fecha_fin": "",
+        "prioridad": 2,
+        "asignado_a": [7],
+        "proyecto": 102
+    },
+    "209": {
+        "nombre_tarea": "Migración de datos",
+        "descripcion": "Migrar los datos al nuevo sistema.",
+        "status": 1,
+        "fecha_inicio": "2024-11-02",
+        "fecha_fin": "",
+        "prioridad": 1,
+        "asignado_a": [2, 9, 15],
+        "proyecto": 103
+    },
+    "210": {
+        "nombre_tarea": "Actualización de seguridad",
+        "descripcion": "Actualizar las políticas de seguridad de la aplicación.",
+        "status": 1,
+        "fecha_inicio": "2024-11-5",
+        "fecha_fin": "",
+        "prioridad": 1,
+        "asignado_a": [4, 10, 13],
+        "proyecto": 103
+    },
+    "211": {
+        "nombre_tarea": "Configuración de servidor",
+        "descripcion": "Configurar el servidor para producción.",
+        "status": 1,
+        "fecha_inicio": "2024-11-6",
+        "fecha_fin": "",
+        "prioridad": 2,
+        "asignado_a": [2, 4, 12],
+        "proyecto": 103
+    },
+    "212": {
+        "nombre_tarea": "Integración de servicios",
+        "descripcion": "Integrar los servicios de terceros.",
+        "status": 1,
+        "fecha_inicio": "2024-11-7",
+        "fecha_fin": "",
+        "prioridad": 1,
+        "asignado_a": [3],
+        "proyecto": 104
+    },
+    "213": {
+        "nombre_tarea": "Pruebas de regresión",
+        "descripcion": "Ejecutar pruebas de regresión en la plataforma.",
+        "status": 2,
+        "fecha_inicio": "2024-11-5",
+        "fecha_fin": "",
+        "prioridad": 2,
+        "asignado_a": [10],
+        "proyecto": 104
+    },
+    "214": {
+        "nombre_tarea": "Capacitación del equipo",
+        "descripcion": "Realizar una capacitación para el equipo sobre las nuevas funcionalidades.",
+        "status": 1,
+        "fecha_inicio": "2024-11-8",
+        "fecha_fin": "",
+        "prioridad": 3,
+        "asignado_a": [6],
+        "proyecto": 104
+    },
+    "215": {
+        "nombre_tarea": "Mantenimiento del sistema",
+        "descripcion": "Realizar mantenimiento preventivo en el sistema.",
+        "status": 1,
+        "fecha_inicio": "2024-11-17",
+        "fecha_fin": "",
+        "prioridad": 2,
+        "asignado_a": [11],
+        "proyecto": 104
+    }
+}
