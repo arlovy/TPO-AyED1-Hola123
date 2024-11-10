@@ -4,9 +4,10 @@ Este módulo contiene funciones que son utilizadas por todo el programa.
 
 from os import system, name
 import json
-import modulos.constantes as cons
 from tabulate import tabulate
 from termcolor import colored
+import datetime as dt
+import modulos.constantes as cons
 
 
 def printear_logo() -> None:
@@ -145,3 +146,12 @@ def prog_bar(percent: int) -> str:
     #genera la barra final
     barra = full * int(progress) + null * (10 - int(progress))
     return barra
+
+def to_datetime(date:str) -> object:
+    """
+    Convierte una fecha formato "AAAA-MM-DD" en un objeto datetime.
+    """
+    #teniendo en cuenta que el formato usado por los json es AAAA-MM-DD
+    year,month,day = list(map(int,date.split("-")))
+    date = dt.datetime(year,month,day)
+    return date

@@ -5,6 +5,7 @@ Este módulo maneja el código para la sección del panel de control general del
 from time import sleep
 from termcolor import colored
 from tabulate import tabulate
+import datetime as dt
 import modulos.tools as tul
 import modulos.constantes as cons
 
@@ -54,7 +55,7 @@ def reporte_general():
             subreport.append(
                 [colored(f"PROYECTO {proyecto}: {csv[proyecto]['NOMBRE DE PROYECTO']}", "cyan")]
             )
-            progreso = 100 if proyectos[proyecto]['status'] == 3 else progreso_proyecto(proyectos[proyecto], tareas)
+            progreso = progreso_proyecto(proyectos[proyecto], tareas)
             #define una variable color dependiendo del progreso.
             if progreso <= 25:
                 color = "red"
@@ -201,33 +202,68 @@ def presentar_estadisticas():
     indent = "    " #una indentacion para organizar los datos
     if all(archivos):
         #seccion de tareas:
-        print(colored("RENDIMIENTO DE TAREAS", "yellow"))
         #calculo el porcentaje de completado de las tareas
         rendimientos = tuple(tareas[tarea]['status'] for tarea in tareas)
         porcentajes = tuple(
             (i, rendimientos.count(i) / len(rendimientos) * 100) for i in set(rendimientos)
         )
         if porcentajes:
-            print(indent + colored("COMPLETADO DE TAREAS:","cyan"))
+            print(colored("COMPLETADO DE TAREAS:","cyan"))
             #muestra el porcentaje total de tareas
-            print(indent * 2 + f"Total de tareas: {len(rendimientos)}")
+            print(indent + f"Total de tareas: {len(rendimientos)}")
             for item in porcentajes:
-                print(indent * 2 + f"{cons.task_status.get(item[0])}: {item[1]:.2f}%")
+                print(indent + f"{cons.task_status.get(item[0])}: {item[1]:.2f}%")
             #muestra al miembro con más tareas completadas
             #primero calculo el maximo de tareas completadas
             maximo = max(len(miembros[x]['historial']) for x in miembros)
             #filtro, por si hubieran mas de 1 con la misma cantidad
             mve = list(filter(lambda x: len(miembros[x]['historial']) == maximo, miembros))
             #Printeo
-            print(indent * 2 + colored("Miembro con más tareas completadas:", "green"))
+            print(indent + colored("Miembro con más tareas completadas:", "green"))
             for memb in mve:
                 print(
-                    indent * 2 + f"‣ {names[memb]['NOMBRE']} " + colored(f"({maximo})", "dark_grey")
+                    indent + f"‣ {names[memb]['NOMBRE']} " + colored(f"({maximo})", "dark_grey")
                 )
+            #saco la cantidad de tareas por proyecto
+            print(colored("TAREAS POR PROYECTO:", "cyan"))
+            for proyecto in proyectos:
+                print(indent +
+                    f"‣ {csv[proyecto]['NOMBRE DE PROYECTO']}: {len(proyectos[proyecto]['tareas'])}"
+                )
+            #calculo promedios de tiempos 
+            print(colored("TIEMPO DE COMPLETADO PROMEDIO:", "cyan"))
+            #para tareas
+            dias_tareas = []
+            for tarea in tareas:
+                if tareas[tarea]['status'] == 3:
+                    dia_in = tul.to_datetime(tareas[tarea]['fecha_inicio'])
+                    dia_fin = tul.to_datetime(tareas[tarea]['fecha_fin'])
+                    dias = (dia_fin - dia_in).days #convierte la diferencia en tipo datetime a int
+                    dias_tareas.append(dias)
 
-            print(indent + colored("TAREAS POR PROYECTO:", "cyan"))
-            
+            if dias_tareas:
+                promedio = sum(dias_tareas) / len(dias_tareas)
+                prom_str = f"{promedio:.0f} días" if not promedio % 1 else f"{promedio:.1f} días."
+                print(indent + colored("TAREAS: ", "yellow") + prom_str)
+            else:
+                print(colored("No hay tareas completadas para calcular un promedio.", "dark_grey"))
+            #para proyectos
+            dias_proyectos = []
+            for proyecto in proyectos:
+                if proyectos[proyecto]['status'] == 3: 
+                    dia_in = tul.to_datetime(proyectos[proyecto]['fecha_inicio'])
+                    dia_fin = tul.to_datetime(proyectos[proyecto]['fecha_fin'])
+                    dias = (dia_fin - dia_in).days #convierte la diferencia en tipo datetime a int
+                    dias_proyectos.append(dias)
 
+            if dias_proyectos:
+                promedio = sum(dias_proyectos) / len(dias_proyectos)
+                prom_str = f"{promedio:.0f} días" if not promedio % 1 else f"{promedio:.1f} días."
+                print(indent + colored("PROYECTOS: ", "yellow") + prom_str)
+            else:
+                print(colored(
+                    "No hay proyectos completados para calcular un promedio.", "dark_grey")
+                )
         else:
             print(indent* 2 + colored("No hay tareas creadas.", "dark_grey"))
         salida = input()    
@@ -264,7 +300,11 @@ def panel():
                         print(colored(f"{e}", "red"))
                         sleep(1.5)
                 case 2:
-                    presentar_estadisticas()
+                    try:
+                        presentar_estadisticas()
+                    except FileNotFoundError as e:
+                        print(colored(f"{e}", "red"))
+                        sleep(1.5)
                 case 3:
                     modificar_roles()
                 case 4:

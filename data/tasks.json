@@ -34,7 +34,7 @@
         "descripcion": "Revisar el código del módulo principal.",
         "status": 3,
         "fecha_inicio": "2024-11-01",
-        "fecha_fin": "",
+        "fecha_fin": "2024-11-03",
         "prioridad": 1,
         "asignado_a": [2],
         "proyecto": 101
