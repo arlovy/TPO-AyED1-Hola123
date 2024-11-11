@@ -81,6 +81,7 @@ def read_csv(ruta_csv: str) -> dict:
 def write_csv(ruta_csv: str, diccionario: dict) -> bool:
     """
     Escribe los datos de un diccionario generado con read_csv() a un archivo especificado.
+    **IMPORTANTE**: Esta función sobreescribe el CSV indicado, si existiera.
     Recibe un string con la ruta del CSV, y un diccionario con los datos.
     Retorna un valor booleano que indica si la operación se realizó con éxito.
     """
@@ -90,10 +91,11 @@ def write_csv(ruta_csv: str, diccionario: dict) -> bool:
         try:
             with open(ruta_csv, "wt", encoding="utf-8") as csvfile:
                 #establece los headers basandose en las claves del primer elemento
-                csvfile.write(",".join(diccionario[1].keys()) + "\n")
+                primero = list(diccionario.keys())[0]
+                csvfile.write("ID," + ",".join(diccionario[primero].keys()) + "\n")
                 #escribe los valores de cada registro
                 for key in diccionario:
-                    registro = ",".join(map(str,diccionario[key].values())) + "\n"
+                    registro = f"{key}," + ",".join(map(str,diccionario[key].values())) + "\n"
                     csvfile.write(registro)
         except FileNotFoundError:
             return False
@@ -112,6 +114,7 @@ def read_json(ruta_archivo: str) -> dict:
     except FileNotFoundError:
         return {}
     return diccionario
+
 
 def write_json(ruta_archivo:str, diccionario:dict) -> bool:
     """

@@ -45,4 +45,3 @@ member_status = {
     1: "Activo",
     0: "Inactivo"
 }
-

@@ -38,7 +38,7 @@ def reporte_general():
     #accedo a datos de todos los archivos para generar el reporte
     tareas = tul.read_json(r"data/tasks.json")
     proyectos = tul.read_json(r"data/project_data.json")
-    miembros = tul.read_json(r"data/member_data.json")['miembros']
+    miembros = tul.read_json(r"data/member_data.json")
     names = tul.read_csv(r"data/miembros.csv")
     csv = tul.read_csv(r"data/proyectos.csv")
 
@@ -194,7 +194,7 @@ def presentar_estadisticas():
     #accedo a datos de todos los archivos para generar estadisticas
     tareas = tul.read_json(r"data/tasks.json")
     proyectos = tul.read_json(r"data/project_data.json")
-    miembros = tul.read_json(r"data/member_data.json")['miembros']
+    miembros = tul.read_json(r"data/member_data.json")
     names = tul.read_csv(r"data/miembros.csv")
     csv = tul.read_csv(r"data/proyectos.csv")
 
@@ -258,14 +258,14 @@ def presentar_estadisticas():
 
             if dias_proyectos:
                 promedio = sum(dias_proyectos) / len(dias_proyectos)
-                prom_str = f"{promedio:.0f} días" if not promedio % 1 else f"{promedio:.1f} días."
+                prom_str = f"{promedio:.0f} días." if not promedio % 1 else f"{promedio:.1f} días."
                 print(indent + colored("PROYECTOS: ", "yellow") + prom_str)
             else:
                 print(colored(
                     "No hay proyectos completados para calcular un promedio.", "dark_grey")
                 )
         else:
-            print(indent* 2 + colored("No hay tareas creadas.", "dark_grey"))
+            print(indent* 2 + colored("No se ha creado ninguna tarea.", "dark_grey"))
         salida = input()    
     else:
         raise FileNotFoundError("Ha ocurrido un problema en la ubicación de archivos.")
