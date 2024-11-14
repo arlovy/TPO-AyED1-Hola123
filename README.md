@@ -8,12 +8,11 @@
 - Lucas Paluci
 - Aron Lovey
 - Gabo Esperon
-- Maximo Escobar Gallo
 
 # Sobre el programa
-Esta es un programa de seguimiento de proyectos de desarrollo de software, que básicamente permite gestionar grupos de trabajo en el contexto de una empresa de software. La aplicación permite crear proyectos, asignar tareas dentro de ellos, y permite a los gerentes consultar el progreso de cada equipo.
+Esta es un programa de seguimiento de proyectos de desarrollo de software, que básicamente permite gestionar grupos de trabajo en el contexto de una empresa de software. La aplicación permite crear proyectos y dentro de ellos asignar tareas a miembros, generando reportes y estadísticas en base al progreso de cada equipo. 
 
-El programa trabaja con 2 CSV; **members.csv**, que contiene a los miembros, y **groups.csv**, que contiene los distintos proyectos y sus IDs. Luego está el archivo **projects.json** que contiene la información de cada grupo de trabajo.
+El programa trabaja con los miembros a través de los archivos **miembros.csv**, donde se guardan los nombres y las direcciones de correo, y **member_data.json**, que incluye toda la información dinámica de cada miembro (su equipo de trabajo, las tareas en las que se desempeña, sus roles, etc). También hace uso de los archivos **proyectos.csv** y **project_data.json** para gestionar la información relacionada a los grupos de trabajo. Finalmente, con **tasks.json** se maneja la información de cada tarea.
 
 Las principales librerías usadas son:
 - **TABULATE:** Para la organización de la interfaz y la presentación de datos.
@@ -26,6 +25,6 @@ El texto ASCII que se utiliza como logo a lo largo del programa fue generado en 
 - https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
 
 ## Organización del programa
-El programa se basa en el archivo **aplicacion.py**, que llama a los módulos **miembros.py** y **proyectos.py** para ejecutar sus funciones. Adicionalmente, el módulo **tools.py** contiene funciones utilizadas por el resto de módulos, como la función **limpiar_pantalla()** o **show_options()** que es usada por todos los menús. 
+El programa se basa en el archivo **aplicacion.py**, que llama a los módulos **miembros.py**, **proyectos.py** y **panel.py** para ejecutar sus funciones. Adicionalmente, el módulo **tools.py** contiene funciones utilizadas por el resto de módulos, como la función **limpiar_pantalla()** o **show_options()** que es usada por todos los menúes. 
 
 En el directorio **data** se encuentran los archivos de datos CSV y JSON.
