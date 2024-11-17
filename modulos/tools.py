@@ -4,11 +4,10 @@ Este módulo contiene funciones que son utilizadas por todo el programa.
 
 from os import system, name
 import json
+import datetime as dt
 from tabulate import tabulate
 from termcolor import colored
-import datetime as dt
 import modulos.constantes as cons
-
 
 def printear_logo() -> None:
     """
@@ -158,3 +157,10 @@ def to_datetime(date:str) -> object:
     year,month,day = list(map(int,date.split("-")))
     date = dt.datetime(year,month,day)
     return date
+
+def get_date() -> str:
+    """
+    Trae la hora actual en formato AAAA-MM-DD.
+    Retorna un string y no recibe parámetros.
+    """
+    return str(dt.date.today())

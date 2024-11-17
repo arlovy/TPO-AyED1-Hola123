@@ -5,7 +5,6 @@ Este módulo maneja el código para la sección del panel de control general del
 from time import sleep
 from termcolor import colored
 from tabulate import tabulate
-import datetime as dt
 import modulos.tools as tul
 import modulos.constantes as cons
 
