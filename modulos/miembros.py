@@ -226,7 +226,7 @@ def buscar_miembro() -> None:
                         print(colored("Volviendo...", "red"))
                         sleep(1.3)
                         break
-        salida = input()
+        input()
 
 
 def add_to_group(id_:str) -> None:
