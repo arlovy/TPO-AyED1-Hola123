@@ -68,7 +68,7 @@ def ver_proyectos() -> None:
 
     print(colored("GRUPOS CARGADOS", "light_green"))
     if not groupnames:
-        print(colored("No hay proyectos cargados en el sistema."))
+        print(colored("No hay proyectos cargados en el sistema.", "dark_grey"))
     else:
         for id_, item in groupnames.items():
             print(colored(f"PROYECTO {id_} - {item['NOMBRE DE PROYECTO']}", "yellow"))
@@ -124,8 +124,8 @@ def project_status(id_:str) -> None:
                 sleep(1.3)
             else:
                 proyectos[id_]['status'] = estado_input
-                if estado_input == 1 and not proyectos[id_]['fecha_de_inicio']:
-                    proyectos[id_]['fecha_de_inicio'] = tul.get_date()
+                if estado_input == 1 and not proyectos[id_]['fecha_inicio']:
+                    proyectos[id_]['fecha_inicio'] = tul.get_date()
                 elif estado_input == 3 and not proyectos[id_]['fecha_fin']:
                     proyectos[id_]['fecha_fin'] = tul.get_date()
                 tul.write_json(r"data/project_data.json", proyectos)
@@ -275,6 +275,7 @@ def add_tasks(id_:str) -> None:
     No retorna nada.
     """
     tasks = tul.read_json(r"data/tasks.json")
+    proyectos = tul.read_json(r"data/project_data.json")
 
     while True:
         tul.limpiar_pantalla()
@@ -301,7 +302,8 @@ def add_tasks(id_:str) -> None:
                 "asignado_a": [],
                 "proyecto": int(id_)
             }
-
+            proyectos[id_]['tareas'].append(int(task_id))
+            tul.write_json(r"data/project_data.json", proyectos)
             tul.write_json(r"data/tasks.json", tasks)
             print(colored("Tarea cargada correctamente", "green"))
             sleep(1.3)
@@ -315,6 +317,7 @@ def edit_task_status(id_:str) -> None:
     """
     proyectos = tul.read_json(r"data/project_data.json")
     tasks = tul.read_json(r"data/tasks.json")
+    miembros = tul.read_json(r"data/member_data.json")
 
     while True:
         tul.limpiar_pantalla()
@@ -363,6 +366,8 @@ def edit_task_status(id_:str) -> None:
                 tasks[str(task_input)]['fecha_inicio'] = tul.get_date()
             elif user_input == 3 and not tasks[str(task_input)]['fecha_fin']:
                 tasks[str(task_input)]['fecha_fin'] = tul.get_date()
+                for miembro in tasks[str(task_input)]['asignado_a']:
+                    miembros[str(miembro)]['historial'].append(task_input)
 
             tul.write_json(r"data/tasks.json", tasks)
             print(colored("Operación exitosa.", "green"))

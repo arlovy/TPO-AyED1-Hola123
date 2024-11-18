@@ -25,10 +25,13 @@ def see_members() -> None:
         print(colored("VISTA GENERAL DE MIEMBROS", "yellow"))
         print()
         if not any(names):
-            print(colored("No hay miembros cargados en el sistema. Presione ENTER para volver.",
-                          "dark_grey"
+            print(
+                colored(
+                    "No hay miembros cargados en el sistema. Presione ENTER para volver.", 
+                    "dark_grey"
                         )
                 )
+            print()
         else:
             for miembro, datos in names.items():
                 #estas variables representan los datos de cada miembro,
@@ -41,11 +44,11 @@ def see_members() -> None:
                 print(f"{id_} - {nombre}")
                 print(indent + email)
 
-                if miembros[miembro]['roles']:
+                if miembros[miembro]['roles'] and roles:
                     nombres_roles = [roles[str(rol)] for rol in miembros[miembro]['roles']]
                     roles_display = colored(" - ".join(nombres_roles), "dark_grey")
                 else:
-                    roles_display = colored("Este miembro no tiene roles asignados.", "dark_grey")
+                    roles_display = colored("Este miembro no tiene roles válidos asignados.", "dark_grey")
                 print(indent + f"‣{roles_display}")
 
                 print(indent + colored("GRUPOS DE TRABAJO:", "dark_grey"))
@@ -65,7 +68,7 @@ def see_members() -> None:
                     )
                 print() #un espacio vacío entre cada miembro
 
-        salida = input(colored("Presione ENTER para salir: ", "yellow"))
+        input(colored("Presione ENTER para salir: ", "yellow"))
         break
 
 
@@ -96,7 +99,10 @@ def crear_miembro() -> None:
                 email = input()
                 if re.match(patron_mail, email):
                     #lo cargo en el csv
-                    idgen = int(list(names.keys())[-1]) + 1
+                    if names:
+                        idgen = int(list(names.keys())[-1]) + 1
+                    else:
+                        idgen = 1
                     names[str(idgen)] = {
                         'NOMBRE': nombre,
                         'EMAIL': email
@@ -104,7 +110,6 @@ def crear_miembro() -> None:
                     tul.write_csv('data/miembros.csv', names)
                     #lo cargo en el json
                     miembros[str(idgen)] = {
-                        "status": 1,
                         "roles": [],
                         "grupos_de_trabajo": [],
                         "tareas_asignadas": [],
@@ -147,7 +152,7 @@ def busqueda_por_id(id_:str, csvnombres: dict) -> None:
     print(colored("EMAIL: ", "yellow") + email)
 
     print(colored("ROLES:", "yellow"))
-    if not roles_id:
+    if not roles_id or not roles:
         print(indent + "Este miembro no tiene roles asignados.")
     else:
         for rol in roles_id:
@@ -186,7 +191,12 @@ def buscar_miembro() -> None:
         print(colored("BÚSQUEDA DE MIEMBROS: ", "yellow"))
 
         if not names: #revisa que hayan miembros cargados
-            print(colored("No hay miembros cargados en el sistema. ENTER para volver."))
+            print(colored(
+                "No hay miembros cargados en el sistema. ENTER para volver.", "dark_grey"
+                )
+            )
+            input()
+            break
         else:
             tul.show_options(["Buscar por ID", "Buscar por nombre", "Volver"])
 
@@ -242,10 +252,15 @@ def add_to_group(id_:str) -> None:
     print()
     #imprime los grupos disponibles para asignar al miembro.
     print(colored("GRUPOS DISPONIBLES:", "cyan"))
-    for grupo, datos in groupnames.items():
-        #muestro los grupos en los cuales no este anotado el miembro.
-        if int(grupo) not in miembros[id_]['grupos_de_trabajo']:
+    disponibles = [
+        (grupo, datos) for grupo,datos in groupnames.items() if int(grupo) not in miembros[id_]['grupos_de_trabajo']
+    ]
+    if disponibles:
+        for grupo, datos in disponibles:
+            #muestro los grupos en los cuales no este anotado el miembro.
             print(f"{grupo} - {datos['NOMBRE DE PROYECTO']}")
+    else:
+        print(colored("No hay grupos disponibles.", "dark_grey"))
     print()
 
     grupo_target = input(
@@ -280,8 +295,13 @@ def modify_roles(id_:str) -> None:
 
     print()
     print(colored("ROLES:", "cyan"))
-    for num, rol in roles.items():
-        print(f"{num} - {rol}")
+    if roles:
+        for num, rol in roles.items():
+            print(f"{num} - {rol}")
+    else:
+        print(colored("No hay roles cargados.", "dark_grey"))
+        print()
+        return #para que no siga con la secuencia
     print()
 
     tul.show_options(["Añadir rol a miembro", "Quitar rol a miembro", "Volver"])
@@ -375,7 +395,12 @@ def edit_member() -> None:
         print(colored("EDITAR MIEMBROS", "light_red"))
 
         if not names: #revisa que hayan miembros cargados
-            print(colored("No hay miembros cargados en el sistema. ENTER para volver."))
+            print(colored(
+                "No hay miembros cargados en el sistema. ENTER para volver.", "dark_grey"
+                )
+            )
+            input()
+            break
         else:
             id_ = input("Ingrese la ID del miembro a editar (-1 para volver): ")
             if id_ == "-1":

@@ -40,7 +40,7 @@ def reporte_general():
     miembros = tul.read_json(r"data/member_data.json")
     names = tul.read_csv(r"data/miembros.csv")
     csv = tul.read_csv(r"data/proyectos.csv")
-
+    roles = tul.read_json(r"dat/roles.json")
     archivos = [proyectos,csv]
 
     #verifico que todos los archivos se hayan ubicado exitosamente
@@ -91,7 +91,8 @@ def reporte_general():
                     #añado al final de sus nombres
                     roles_integrante = []
                     for item in miembros[integrante]['roles']:
-                        roles_integrante.append(cons.roles.get(item))
+                        if roles:
+                            roles_integrante.append(roles.get(item))
                     sufijo = "-".join(roles_integrante)
                     subreport.append(
                         [nombre_integrante + colored(sufijo, "dark_grey")]
@@ -124,7 +125,7 @@ def reporte_general():
             else:
                 subreport.append([colored("\nNo hay tareas en este proyecto.", "dark_grey")])
             print(tabulate(subreport))
-        salida = input()
+        input()
     else:
         raise FileNotFoundError("Ha ocurrido un problema en la ubicación de archivos.")
 
@@ -200,6 +201,7 @@ def presentar_estadisticas():
     archivos = [proyectos, csv]
     indent = "    " #una indentacion para organizar los datos
     if all(archivos):
+        tul.limpiar_pantalla()
         #seccion de tareas:
         #calculo el porcentaje de completado de las tareas
         rendimientos = tuple(tareas[tarea]['status'] for tarea in tareas)
@@ -219,17 +221,20 @@ def presentar_estadisticas():
             mve = list(filter(lambda x: len(miembros[x]['historial']) == maximo, miembros))
             #Printeo
             print(indent + colored("Miembro con más tareas completadas:", "green"))
-            for memb in mve:
-                print(
-                    indent + f"‣ {names[memb]['NOMBRE']} " + colored(f"({maximo})", "dark_grey")
-                )
+            if maximo != 0:
+                for memb in mve:
+                    print(
+                        indent + f"‣ {names[memb]['NOMBRE']} " + colored(f"({maximo})", "dark_grey")
+                    )
+            else:
+                print(indent + colored("No hay miembros con tareas completadas", "dark_grey"))
             #saco la cantidad de tareas por proyecto
             print(colored("TAREAS POR PROYECTO:", "cyan"))
             for proyecto in proyectos:
                 print(indent +
                     f"‣ {csv[proyecto]['NOMBRE DE PROYECTO']}: {len(proyectos[proyecto]['tareas'])}"
                 )
-            #calculo promedios de tiempos 
+            #calculo promedios de tiempos
             print(colored("TIEMPO DE COMPLETADO PROMEDIO:", "cyan"))
             #para tareas
             dias_tareas = []
@@ -238,34 +243,45 @@ def presentar_estadisticas():
                     dia_in = tul.to_datetime(tareas[tarea]['fecha_inicio'])
                     dia_fin = tul.to_datetime(tareas[tarea]['fecha_fin'])
                     dias = (dia_fin - dia_in).days #convierte la diferencia en tipo datetime a int
+                    #cuenta como que se tarda 1 dia en terminar si se completara el mismo dia
+                    if dias == 0:
+                        dias = 1
                     dias_tareas.append(dias)
 
             if dias_tareas:
                 promedio = sum(dias_tareas) / len(dias_tareas)
-                prom_str = f"{promedio:.0f} días" if not promedio % 1 else f"{promedio:.1f} días."
-                print(indent + colored("TAREAS: ", "yellow") + prom_str)
+                prom_str = f"{promedio:.0f}" if not promedio % 1 else f"{promedio:.1f}"
+                lastword = " día." if prom_str == "1" else " días."
+                print(indent + colored("TAREAS: ", "yellow") + prom_str + lastword)
             else:
                 print(colored("No hay tareas completadas para calcular un promedio.", "dark_grey"))
+
             #para proyectos
             dias_proyectos = []
             for proyecto in proyectos:
-                if proyectos[proyecto]['status'] == 3: 
+                if proyectos[proyecto]['status'] == 3:
                     dia_in = tul.to_datetime(proyectos[proyecto]['fecha_inicio'])
                     dia_fin = tul.to_datetime(proyectos[proyecto]['fecha_fin'])
                     dias = (dia_fin - dia_in).days #convierte la diferencia en tipo datetime a int
+                    #cuenta como que se tarda 1 dia en terminar si se completara el mismo dia
+                    if dias == 0:
+                        dias = 1
                     dias_proyectos.append(dias)
 
             if dias_proyectos:
                 promedio = sum(dias_proyectos) / len(dias_proyectos)
-                prom_str = f"{promedio:.0f} días." if not promedio % 1 else f"{promedio:.1f} días."
-                print(indent + colored("PROYECTOS: ", "yellow") + prom_str)
+                prom_str = f"{promedio:.0f}" if not promedio % 1 else f"{promedio:.1f}"
+                lastword = " día." if prom_str == "1" else " días."
+                print(indent + colored("PROYECTOS: ", "yellow") + prom_str + lastword)
             else:
                 print(colored(
                     "No hay proyectos completados para calcular un promedio.", "dark_grey")
                 )
         else:
             print(indent* 2 + colored("No se ha creado ninguna tarea.", "dark_grey"))
-        salida = input()    
+        print()
+        print(colored("Presione ENTER para volver.", "yellow"))
+        input()
     else:
         raise FileNotFoundError("Ha ocurrido un problema en la ubicación de archivos.")
 
