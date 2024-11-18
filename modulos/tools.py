@@ -87,6 +87,8 @@ def write_csv(ruta_csv: str, diccionario: dict) -> bool:
     #hice esta función por cuestiones de legibilidad en los modulos, prefiero dejarla aca y reducir
     #las lineas en el resto de archivos a la hora de escribir en un csv.
     if diccionario:
+        if not os.path.isdir('data'):
+            os.mkdir('data')
         try:
             with open(ruta_csv, "wt", encoding="utf-8") as csvfile:
                 #establece los headers basandose en las claves del primer elemento
@@ -107,8 +109,6 @@ def read_json(ruta_archivo: str) -> dict:
     Recibe un string con la ruta del archivo.
     Retorna el archivo JSON como un diccionario.
     """
-    if not os.path.isdir('data'):
-        os.mkdir('data')
     try:
         with open(ruta_archivo, 'rt', encoding='utf-8') as archivo:
             diccionario = json.load(archivo)
@@ -123,7 +123,6 @@ def write_json(ruta_archivo:str, diccionario:dict) -> bool:
     Recibe un string con la ruta del archivo y un diccionario.
     Retorna un valor booleano que indica si la operación se realizó con éxito.
     """
-
     if not os.path.isdir('data'):
         os.mkdir('data')
     try:
