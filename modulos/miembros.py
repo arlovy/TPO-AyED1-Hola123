@@ -277,8 +277,8 @@ def add_to_group(id_:str) -> None:
             #los sumo a los diccionarios y escribo los archivos
             miembros[id_]['grupos_de_trabajo'].append(int(grupo_target))
             grupos[grupo_target]['miembros_asignados'].append(int(id_))
-            tul.write_json('data/member_data.json', miembros)
-            tul.write_json('data/project_data.json', grupos)
+            tul.write_json(r'data/member_data.json', miembros)
+            tul.write_json(r'data/project_data.json', grupos)
 
             print(colored("Operación exitosa.", "green"))
             print()

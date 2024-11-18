@@ -2,7 +2,7 @@
 Este módulo contiene funciones que son utilizadas por todo el programa.
 """
 
-from os import system, name
+import os
 import json
 import datetime as dt
 from tabulate import tabulate
@@ -28,11 +28,11 @@ def limpiar_pantalla() -> None:
     Esta función se encarga de limpiar la consola.
     """
     # Para Windows
-    if name == "nt":
-        _ = system("cls")
+    if os.name == "nt":
+        _ = os.system("cls")
     # Para Mac y Linux
     else:
-        _ = system("clear")
+        _ = os.system("clear")
 
 
 def show_options(options: list[str]) -> None:
@@ -107,6 +107,8 @@ def read_json(ruta_archivo: str) -> dict:
     Recibe un string con la ruta del archivo.
     Retorna el archivo JSON como un diccionario.
     """
+    if not os.path.isdir('data'):
+        os.mkdir('data')
     try:
         with open(ruta_archivo, 'rt', encoding='utf-8') as archivo:
             diccionario = json.load(archivo)
@@ -121,6 +123,9 @@ def write_json(ruta_archivo:str, diccionario:dict) -> bool:
     Recibe un string con la ruta del archivo y un diccionario.
     Retorna un valor booleano que indica si la operación se realizó con éxito.
     """
+
+    if not os.path.isdir('data'):
+        os.mkdir('data')
     try:
         with open(ruta_archivo, 'wt', encoding='utf-8') as archivo:
             myjson = json.dumps(diccionario)
