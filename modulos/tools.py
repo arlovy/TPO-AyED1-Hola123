@@ -111,7 +111,7 @@ def read_json(ruta_archivo: str) -> dict:
         with open(ruta_archivo, 'rt', encoding='utf-8') as archivo:
             diccionario = json.load(archivo)
     except FileNotFoundError:
-        return {}
+        diccionario = {}
     return diccionario
 
 

@@ -23,12 +23,6 @@ roles = {
         10: "Tester"
     }
 
-priority = {
-    1: "Alta",
-    2: "Media",
-    3: "Baja"
-}
-
 task_status = {
     1: "Pendiente",
     2: "En progreso",

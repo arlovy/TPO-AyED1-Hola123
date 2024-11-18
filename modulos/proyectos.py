@@ -124,6 +124,10 @@ def project_status(id_:str) -> None:
                 sleep(1.3)
             else:
                 proyectos[id_]['status'] = estado_input
+                if estado_input == 1 and not proyectos[id_]['fecha_de_inicio']:
+                    proyectos[id_]['fecha_de_inicio'] = tul.get_date()
+                elif estado_input == 3 and not proyectos[id_]['fecha_fin']:
+                    proyectos[id_]['fecha_fin'] = tul.get_date()
                 tul.write_json(r"data/project_data.json", proyectos)
 
 
@@ -222,6 +226,304 @@ def set_leader(id_: str) -> None:
                 sleep(1.3)
 
 
+def see_tasks(id_:str) -> None:
+    """
+    Muestra las tareas dentro de un proyecto indicado.
+    Recibe una ID de proyecto en forma de string.
+    No retorna nada.
+    """
+    tasks = tul.read_json(r"data/tasks.json")
+    proyectos = tul.read_json(r"data/project_data.json")
+    names = tul.read_csv(r"data/miembros.csv")
+    indent = "    "
+
+    tul.limpiar_pantalla()
+
+    if not proyectos[id_]['tareas']:
+        print(colored("No hay tareas en este proyecto.", "dark_grey"))
+    else:
+        print(colored("TAREAS", "yellow"))
+        for task_id in proyectos[id_]['tareas']:
+            print(colored(f"ID:{task_id} - {tasks[str(task_id)]['nombre_tarea']}", "dark_grey"))
+
+            descripcion = tasks[str(task_id)]['descripcion']
+            print(indent + colored(f'"{descripcion}"', "dark_grey"))
+
+            print(indent +
+                  colored(
+                    f"ESTADO: {cons.task_status.get(tasks[str(task_id)]['status'])}", "dark_grey"
+                )
+            )
+
+            print(indent + colored("MIEMBROS:", "dark_grey"))
+            if not tasks[str(task_id)]['asignado_a']:
+                print(indent + colored("No hay miembros asignados a esta tarea.", "dark_grey"))
+            else:
+                for id_miembro, datos in names.items():
+                    if int(id_miembro) in tasks[str(task_id)]['asignado_a']:
+                        print(indent + colored(f"ID:{id_miembro} - {datos['NOMBRE']}", "dark_grey"))
+
+            print(colored("⸻⸻⸻" * 5, "dark_grey"))
+    print(colored("ENTER para salir.", "yellow"))
+    input()
+
+
+def add_tasks(id_:str) -> None:
+    """
+    Permite al usuario cargar una tarea dentro de un proyecto.
+    Recibe la ID del proyecto en forma de string.
+    No retorna nada.
+    """
+    tasks = tul.read_json(r"data/tasks.json")
+
+    while True:
+        tul.limpiar_pantalla()
+        print(colored("CREAR TAREA", "yellow"))
+        nombre = input("Ingrese el nombre de la tarea (-1 para cancelar): ")
+        if nombre == "-1" or nombre in [""," "]:
+            print(colored("Saliendo...", "red"))
+            sleep(1.3)
+            break
+        else:
+            print("Ingrese una descripción para la tarea: ")
+            desc = input()
+            if not tasks:
+                task_id = "200"
+            else:
+                task_id = str(int(list(tasks.keys())[-1]) + 1)
+
+            tasks[task_id] = {
+                "nombre_tarea": nombre,
+                "descripcion": desc,
+                "status": 1,
+                "fecha_inicio": "",
+                "fecha_fin": "",
+                "asignado_a": [],
+                "proyecto": int(id_)
+            }
+
+            tul.write_json(r"data/tasks.json", tasks)
+            print(colored("Tarea cargada correctamente", "green"))
+            sleep(1.3)
+
+
+def edit_task_status(id_:str) -> None:
+    """
+    Permite al usuario editar el estatus de una tarea dentro de un proyecto.
+    Recibe la ID del proyecto en forma de string.
+    No retorna nada.
+    """
+    proyectos = tul.read_json(r"data/project_data.json")
+    tasks = tul.read_json(r"data/tasks.json")
+
+    while True:
+        tul.limpiar_pantalla()
+        tul.printear_logo()
+        print(colored("EDITAR ESTADO", "yellow"))
+        if not proyectos[id_]['tareas']:
+            print(colored("No hay tareas en este equipo.", "dark_grey"))
+            print(colored("Presione ENTER para volver.", "dark_grey"))
+            input()
+            break
+
+        for tarea in proyectos[id_]['tareas']:
+            print(f"{tarea} - {tasks[str(tarea)]['nombre_tarea']}")
+        print()
+
+        try:
+            task_input = int(input("Ingrese la ID de la tarea (-1 para cancelar): "))
+        except ValueError:
+            print(colored("ID no válida.", "red"))
+            sleep(1.5)
+            continue
+
+        if task_input == -1:
+            print(colored("Volviendo...", "red"))
+            sleep(1.3)
+            break
+
+        if task_input not in proyectos[id_]['tareas']:
+            print(colored("Esta tarea no existe en este proyecto.", "dark_grey"))
+            sleep(1.3)
+        else:
+            for val, text in cons.task_status.items():
+                print(f"{val} - {text}")
+
+            try:
+                user_input = int(input("Ingrese el estado nuevo: "))
+                if user_input not in [1,2,3]:
+                    raise ValueError
+            except ValueError:
+                print(colored("Estado no válido.", "red"))
+                sleep(1.5)
+                continue
+
+            tasks[str(task_input)]['status'] = user_input
+            if user_input == 2 and not tasks[str(task_input)]['fecha_inicio']:
+                tasks[str(task_input)]['fecha_inicio'] = tul.get_date()
+            elif user_input == 3 and not tasks[str(task_input)]['fecha_fin']:
+                tasks[str(task_input)]['fecha_fin'] = tul.get_date()
+
+            tul.write_json(r"data/tasks.json", tasks)
+            print(colored("Operación exitosa.", "green"))
+            sleep(1.3)
+            break
+
+
+def manage_task_members(id_: str, task_id: int) -> None:
+    """
+    Permite al usuario administrar los miembros de una tarea.
+    Recibe la ID del proyecto en forma de string, y la ID de la tarea en forma de entero.
+    No retorna nada.
+    """
+    miembros = tul.read_json(r"data/member_data.json")
+    proyectos = tul.read_json(r"data/project_data.json")
+    names = tul.read_csv(r"data/miembros.csv")
+    tareas = tul.read_json(r"data/tasks.json")
+    while True:
+        tul.limpiar_pantalla()
+
+        print()
+        print(colored(f"EDITANDO TAREA: {tareas[str(task_id)]['nombre_tarea']}", "yellow"))
+        for members in proyectos[id_]['miembros_asignados']:
+            if members not in tareas[str(task_id)]['asignado_a']:
+                sufijo = ""
+            else:
+                sufijo = colored(" ASIGNADO", "green")
+            print(f"{members} - {names[str(members)]['NOMBRE']}" + sufijo)
+        print("⸻⸻⸻" * 5)
+
+        try:
+            user_input = int(input("Ingrese la ID del miembro a modificar (-1 para cancelar): "))
+            if user_input not in proyectos[id_]['miembros_asignados'] and user_input != -1:
+                raise ValueError
+        except ValueError:
+            print(colored("ID no válida.", "red"))
+            sleep(1.5)
+            continue
+
+        if user_input == -1:
+            print(colored("Volviendo...", "red"))
+            sleep(1.3)
+            break
+
+        choice_input = input(
+            "¿Desea agregar o eliminar a este miembro? (1 - AGREGAR / 0 - ELIMINAR): "
+        )
+
+        if choice_input not in ["1","0"]:
+            print("Opción no válida.", "red")
+            sleep(1.3)
+            continue
+        elif choice_input == "1":
+            if user_input in tareas[str(task_id)]['asignado_a']:
+                print("Este miembro ya está anotado en esta tarea.", "dark_grey")
+            else:
+                tareas[str(task_id)]['asignado_a'].append(user_input)
+                miembros[str(user_input)]['tareas_asignadas'].append(task_id)
+                tul.write_json(r"data/tasks.json", tareas)
+                tul.write_json(r"data/member_data.json", miembros)
+        elif choice_input == "0":
+            if user_input not in tareas[str(task_id)]['asignado_a']:
+                print("Este miembro no está anotado en esta tarea.", "dark_grey")
+            else:
+                tareas[str(task_id)]['asignado_a'].remove(user_input)
+                miembros[str(user_input)]['tareas_asignadas'].remove(task_id)
+                tul.write_json(r"data/tasks.json", tareas)
+                tul.write_json(r"data/member_data.json", miembros)
+
+        print(colored("Operación exitosa.", "green"))
+        sleep(1.3)
+
+
+def assign_task_members(id_:str) -> None:
+    """
+    Permite al usuario administrar los miembros asignados a tareas.
+    Recibe la ID del proyecto al que pertenece la tarea, en forma de string.
+    No retorna nada.
+    """
+    proyectos = tul.read_json(r"data/project_data.json")
+    tasks = tul.read_json(r"data/tasks.json")
+    while True:
+        tul.limpiar_pantalla()
+        tul.printear_logo()
+
+        print(colored("ASIGNAR MIEMBROS", "yellow"))
+        if not proyectos[id_]['tareas']:
+            print(colored("No hay tareas en este equipo.", "dark_grey"))
+            print(colored("Presione ENTER para volver.", "dark_grey"))
+            input()
+            break
+
+        for tarea in proyectos[id_]['tareas']:
+            print(f"{tarea} - {tasks[str(tarea)]['nombre_tarea']}")
+        print()
+
+        try:
+            task_input = int(input("Ingrese la ID de la tarea (-1 para cancelar): "))
+            if task_input not in proyectos[id_]['tareas'] and task_input != -1:
+                raise ValueError
+        except ValueError:
+            print(colored("ID no válida.", "red"))
+            sleep(1.5)
+            continue
+
+        if task_input == -1:
+            print(colored("Volviendo...", "red"))
+            sleep(1.3)
+            break
+
+        manage_task_members(id_, task_input)
+
+
+def manage_tasks(id_:str) -> None:
+
+    """
+    Permite al usuario modificar las tareas asignadas dentro de un equipo.
+    Recibe la ID del proyecto en forma de string.
+    No retorna nada.
+    """
+
+    while True:
+        tul.limpiar_pantalla()
+        tul.printear_logo()
+
+        print(colored("ADMINISTRAR TAREAS", "yellow"))
+
+        opciones = [
+            "Ver tareas del proyecto",
+            "Agregar tareas",
+            "Editar estado de una tarea",
+            "Asignar miembros a una tarea",
+            "Volver"
+        ]
+
+        tul.show_options(opciones)
+        try:
+            user_input = int(input("Ingrese la opción: "))
+        except ValueError:
+            print(colored("Elija una opción numérica.", "red"))
+            sleep(1.5)
+            continue
+
+        match user_input:
+            case 1:
+                see_tasks(id_)
+            case 2:
+                add_tasks(id_)
+            case 3:
+                edit_task_status(id_)
+            case 4:
+                assign_task_members(id_)
+            case 5:
+                print(colored("Volviendo...", "red"))
+                sleep(1.5)
+                break
+            case _:
+                print(colored("Opción no válida.", "red"))
+                sleep(1.5)
+
+
 
 def edit_project_instance(id_:str) -> None:
     """
@@ -265,7 +567,7 @@ def edit_project_instance(id_:str) -> None:
             case 3:
                 set_leader(id_)
             case 4:
-                manage_tasks()
+                manage_tasks(id_)
             case 5:
                 print(colored("Volviendo...", "red"))
                 sleep(1.5)
