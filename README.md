@@ -3,12 +3,6 @@
     <img src="https://i.imgur.com/B2YVNwO.gif" alt="Texto">
 </p>
 
-# Integrantes
-
-- Lucas Paluci
-- Aron Lovey
-- Gabo Esperon
-
 # Sobre el programa
 Esta es un programa de seguimiento de proyectos de desarrollo de software, que básicamente permite gestionar grupos de trabajo en el contexto de una empresa de software. La aplicación permite crear proyectos y dentro de ellos asignar tareas a miembros, generando reportes y estadísticas en base al progreso de cada equipo. 
 
